@@ -1,0 +1,35 @@
+Managing placement records of college students on spreadsheets and physical documents is very inefficient and difficult to refer quickly and update. This project aims to solve this problem by building a console-based Placement Management System using C Language. The system can be used to add new placements, update real-time process, access existing records and find required placement records securely using various C libraries and components.
+
+The steps of implementation of the management system are –
+
+1. User Authentication: The management system will include a username and password-based login to ensure a secure access.
+2. Record Handling: The management system will consist of C structures to hold student and placement details.         
+3. String Manipulation: String functions will be utilized to store text input, authenticate login and search and update records.
+4. File Handling: A Binary file will be set up and various file functions will be used for reading, appending and updating the records on hard drive.
+5. Main Driver Module: The user interface will consist of a menu to perform various operations like adding, updating and searching for a record.
+6. Report & Presentation: The output screen will display the required placement record.
+
+The Proposed Modules are as follows –
+
+1. Authentication Module: The module will consist of a username and password verification to enter the management system. String functions will be used to compare the input with authorised data.
+2. Appending Record Module: The module will be used to input new student placement records into the system.
+3. Search & Update Module: The module will be used to search the existing record and update the placement process and find the particular records based on the placement status.
+
+The topics required from the subject are –
+
+A. Strings: String manipulation functions like strcmp(), strlen(), and strcpy() are utilised to perform various operations on the text-based data like authenticating, searching, etc.
+B. File Handling: A binary file is used to store the records on the system and various file functions like fwrite(), fopen(), fseek() and fread() are used to store and modify records on the file.
+C. Structures: Structures are used to store student and placement details as they are essential to store different types of data under a single variable like integer, float and character.
+D. Pointers: Pointers are used to pass the structure data to different functions without creating duplicate memory hence, improving the efficiency of the program.
+
+Platform Required –
+
+I. Visual Code Studio
+II. GCC Compiler
+
+Books and Link Sources –
+
+1) Book: Let us C by Yashavent Kanetkar for basic concepts.
+2) Book: The C Programming Language for syntax knowledge.
+3) Link: (www.geeksforgeeks.org/c-programming-language) for string and array.
+4) Link: (www.cplusplus.com/reference/clibrary) for C libraries like <string.h> and <stdlib.h>.
