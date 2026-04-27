@@ -1,0 +1,207 @@
+﻿#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+
+struct Students
+{   
+    int id;
+    char name[100];
+    char jobrole[50];
+    char status[20];
+};
+
+
+int authenticate();
+void addstudent();
+void displaystudents();
+void searchstudent();
+void updatestudent();
+void filterstudents();
+
+
+int main()
+{
+    int choice;
+    if(authenticate())
+    {
+        while(1)
+        {
+            printf("\n\n1. Add Student\n");
+            printf("2. Display Students\n");
+            printf("3. Search Student\n");
+            printf("4. Update Student\n");
+            printf("5. Filter Students\n");
+            printf("6. Exit\n");
+            printf("Enter your choice: ");
+            scanf("%d", &choice);
+            switch(choice)
+            {
+                case 1:
+                    addstudent();
+                    break;
+                case 2:
+                    displaystudents();
+                    break;
+                case 3:
+                    searchstudent();
+                    break;
+                case 4:
+                    updatestudent();
+                    break;
+                case 5:
+                    filterstudents();
+                    break;
+                case 6:
+                    exit(0);
+                default:
+                    printf("Invalid choice! Please try again.\n");
+            }
+        }
+    }
+    else
+    {
+        printf("Authentication failed!\n");
+        return 0;
+    }
+}
+
+
+int authenticate()
+{
+    char username[50], password[50];
+    printf("Enter username: ");
+    scanf("%[^\n]", username);
+    printf("Enter password: ");
+    scanf("%[^\n]", password);
+    if(strcmp(username, "admin")==0 && strcmp(password, "admin123")==0)
+    {
+        return 1;
+    }
+    return 0;
+}
+
+
+void addstudent()
+{
+    struct Students student;
+    FILE *file = fopen("students.dat", "ab");
+    if(file == NULL)
+    {
+        printf("Error opening file!\n");
+        return;
+    }
+    printf("Enter student ID: ");
+    scanf("%d", &student.id);
+    printf("Enter student name: ");
+    scanf("%[^\n]", student.name);
+    printf("Enter job role: ");
+    scanf("%[^\n]", student.jobrole);
+    printf("Enter status: ");
+    scanf("%[^\n]", student.status);
+    fwrite(&student, sizeof(struct Students), 1, file);
+    fclose(file);
+    printf("Student added successfully!\n");
+}
+
+
+void displaystudents()
+{
+    struct Students student;
+    FILE *file = fopen("students.dat", "rb");
+    if(file == NULL)
+    {
+        printf("Error opening file!\n");
+        return;
+    }
+    printf("\nID\tName\tJob Role\tStatus\n");
+    while(fread(&student, sizeof(struct Students), 1, file))
+    {
+        printf("%d\t%s\t%s\t%s\n", student.id, student.name, student.jobrole, student.status);
+    }
+    fclose(file);
+}
+
+
+void searchstudent()
+{
+    int id;
+    struct Students student;
+    FILE *file = fopen("students.dat", "rb");
+    if(file == NULL)
+    {
+        printf("Error opening file!\n");
+        return;
+    }
+    printf("Enter student ID to search: ");
+    scanf("%d", &id);
+    while(fread(&student, sizeof(struct Students), 1, file))
+    {
+        if(student.id == id)
+        {
+            printf("\nID: %d\nName: %s\nJob Role: %s\nStatus: %s\n", student.id, student.name, student.jobrole, student.status);
+            fclose(file);
+            return;
+        }
+    }
+    printf("Student not found!\n");
+    fclose(file);
+}
+
+
+void updatestudent()
+{
+    int id;
+    struct Students student;
+    FILE *file = fopen("students.dat", "rb+");
+    if(file == NULL)
+    {
+        printf("Error opening file!\n");
+        return;
+    }
+    printf("Enter student ID to update: ");
+    scanf("%d", &id);
+    while(fread(&student, sizeof(struct Students), 1, file))
+    {
+        if(student.id == id)
+        {
+            printf("Enter new name: ");
+            scanf("%[^\n]", student.name);
+            printf("Enter new job role: ");
+            scanf("%[^\n]", student.jobrole);
+            printf("Enter new status: ");
+            scanf("%[^\n]", student.status);
+            fseek(file, -(long)sizeof(struct Students), SEEK_CUR);
+            fwrite(&student, sizeof(struct Students), 1, file);
+            fclose(file);
+            printf("Student updated successfully!\n");
+            return;
+        }
+    }
+    printf("Student not found!\n");
+    fclose(file);
+}
+
+
+void filterstudents()
+{
+    char status[20];
+    struct Students student;
+    FILE *file = fopen("students.dat", "rb");
+    if(file == NULL)
+    {
+        printf("Error opening file!\n");
+        return;
+    }
+    printf("Enter status to filter: ");
+    scanf("%[^\n]", status);
+    printf("\nID\tName\tJob Role\tStatus\n");
+    while(fread(&student, sizeof(struct Students), 1, file))
+    {
+        if(strcmp(student.status, status) == 0)
+        {
+            printf("%d\t%s\t%s\t%s\n", student.id, student.name, student.jobrole, student.status);
+        }
+    }
+    fclose(file);
+}
